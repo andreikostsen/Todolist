@@ -85,7 +85,7 @@ console.log(props.currentFilter)
 
 
                         return (
-                            <li key={t.id}>
+                            <li key={t.id} className={t.isDone?s.isDone:""}>
                                 <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler} />
                                 <span>{t.title}</span>
                                 <button onClick={removeTaskHandler}>x</button>
