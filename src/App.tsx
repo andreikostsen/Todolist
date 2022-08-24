@@ -32,24 +32,42 @@ function App() {
         setState(updatedState)
     }
 
+
     const addTask=(title:string)=> {
-        const newTask = {id:v1(), isDone:false, title:title}
-        setState([newTask, ...state])
+          const newTask = {id:v1(), isDone:false, title:title.trim()}
+          if(title!=="") {
+              setState([newTask, ...state])
+          }
+        }
 
 
-    }
-
-    const changeTaskStatus=(id:string)=> {
-
-        console.log(id)
-
-        const stateCopy = [...state]
-
-        const updatedState = stateCopy.map(t=>t.id==id?{id: t.id, isDone: !t.isDone, title: t.title}:t)
-
-        setState(updatedState)
+    const changeTaskStatus=(id:string, checkedStatus: boolean)=> {
 
 
+        //  MAP
+        // console.log(id)
+        //
+        // const stateCopy = [...state]
+        //
+        // const updatedState = stateCopy.map(t=>t.id==id?{id: t.id, isDone: !t.isDone, title: t.title}:t)
+        //
+        // setState(updatedState)
+
+
+
+        //FIND
+
+        let foundedTask = state.find(t=>t.id==id)
+
+        if (foundedTask) {
+
+            foundedTask.isDone = checkedStatus
+
+            console.log(foundedTask)
+
+            setState([...state])
+
+        }
     }
 
 
@@ -74,7 +92,7 @@ function App() {
 
     return (
         <div className="App">
-            <Todolist  tasks={filteredState} title={todolistTitle} removeTask={removeTask} addTask={addTask} tasksFilter={tasksFilter} changeTaskStatus={changeTaskStatus}/>
+            <Todolist  tasks={filteredState} title={todolistTitle} removeTask={removeTask} addTask={addTask} tasksFilter={tasksFilter} changeTaskStatus={changeTaskStatus} currentFilter={filterName}/>
         </div>
     );
 }

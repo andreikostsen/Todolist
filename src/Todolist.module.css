@@ -1,0 +1,20 @@
+button {
+
+    margin: 5px;
+
+
+}
+
+
+.error {
+
+    color: red;
+
+}
+
+.activeFilter {
+
+    background-color: greenyellow;
+
+
+}
