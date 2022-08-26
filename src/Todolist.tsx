@@ -6,13 +6,15 @@ import s from "./Todolist.module.css"
 
 type PropsType = {
 
+    id: string;
     tasks: Array<TaskType>;
     title: string;
-    removeTask: (id:string)=>void;
-    addTask:(title:string)=>void;
-    tasksFilter:(value:FilterValueType)=>void;
-    changeTaskStatus: (id:string, checkedStatus: boolean)=>void;
-    currentFilter: FilterValueType
+    removeTask: (id:string, todoListID: string)=>void;
+    addTask:(title:string, todoListID: string)=>void;
+    tasksFilter:(value:FilterValueType, todoListID: string)=>void;
+    changeTaskStatus: (id:string, checkedStatus: boolean, todoListID: string)=>void;
+    currentFilter: FilterValueType;
+    removeTodoList: (todoListID: string)=>void;
 
 }
 
@@ -34,7 +36,7 @@ export const Todolist=(props:PropsType)=> {
     const onKeyDownHandler=(e:KeyboardEvent<HTMLInputElement>)=> {
 
         if(e.key === "Enter") {
-            props.addTask(title)
+            props.addTask(title, props.id)
             setTitle("")
             if(title=="") {
                 setError(true)
@@ -43,7 +45,7 @@ export const Todolist=(props:PropsType)=> {
     }
 
     const addTask = () => {
-        props.addTask(title)
+        props.addTask(title, props.id)
         setTitle("")
         if(title=="") {
             setError(true)
@@ -51,7 +53,14 @@ export const Todolist=(props:PropsType)=> {
     }
 
 const onClickHandler=(value:FilterValueType)=>{
-        props.tasksFilter(value)
+        props.tasksFilter(value, props.id)
+}
+
+
+const removeTodoListHandler=()=>{
+
+        props.removeTodoList(props.id)
+
 }
 
 
@@ -61,7 +70,9 @@ console.log(props.currentFilter)
     return (
 
             <div>
-                <h3>{props.title}</h3>
+
+                <h3>{props.title}
+                    <button onClick={removeTodoListHandler}>x</button></h3>
                 <div>
                     <input onChange={onChangeHandler} onKeyDown={onKeyDownHandler} value={title}/>
                     <button onClick={addTask}>+</button>
@@ -71,12 +82,12 @@ console.log(props.currentFilter)
                     {props.tasks.map(t=>{
 
                         const removeTaskHandler=()=>{
-                            props.removeTask(t.id)
+                            props.removeTask(t.id, props.id)
                         }
 
                         const changeTaskStatusHandler=(e:ChangeEvent<HTMLInputElement>)=>{
 
-                            props.changeTaskStatus(t.id, e.target.checked)
+                            props.changeTaskStatus(t.id, e.target.checked, props.id)
                             console.log(e.target.checked)
 
 
