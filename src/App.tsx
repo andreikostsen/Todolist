@@ -4,6 +4,7 @@ import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Container, Grid, Paper} from "@mui/material";
 
 
 export type ObjTaskType = {
@@ -144,17 +145,32 @@ function App() {
 
     }
 
+    const editedTodolistTitle =(newTodolistTitle: string,  todoListID: string)=> {
+
+        let updatedTodolist = todolists.find(tl => tl.id == todoListID)
+
+        if (updatedTodolist) {
+            updatedTodolist.title = newTodolistTitle
+        }
+
+
+        setTodolists([...todolists])
+
+    }
+
 
 
     return (
 
-
         <div className="App">
 
-
+            <Container fixed>
+                <Grid container style={{padding: "20px"}}>
 
 <AddItemForm addItem={addTodolist} />
+                </Grid>
 
+                    <Grid container spacing={2}>
             {todolists.map(tl => {
 
 
@@ -170,7 +186,9 @@ function App() {
                     console.log(filteredTasks)
                 }
 
-                    return <Todolist key={tl.id}
+                return <Grid item>
+                    <Paper style={{padding: "20px"}} elevation={3}>
+                <Todolist key={tl.id}
                                      id={tl.id}
                                      tasks={filteredTasks}
                                      title={tl.title}
@@ -181,13 +199,19 @@ function App() {
                                      currentFilter={tl.filter}
                                      removeTodoList={removeTodoList}
                                      editedTaskTitle={editedTaskTitle}
+                                     editedTodolistTitle ={editedTodolistTitle}
                     />
+                    </Paper>
+                </Grid>
+
                 }
             )}
 
 
-
+                </Grid>
+            </Container>
         </div>
+
     );
 }
 

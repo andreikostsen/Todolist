@@ -3,6 +3,8 @@ import {FilterValueType, TaskType} from "./App";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button, IconButton} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -18,7 +20,7 @@ type PropsType = {
     currentFilter: FilterValueType;
     removeTodoList: (todoListID: string)=>void;
     editedTaskTitle: (title:string, todoListID: string, taskID: string) => void
-
+    editedTodolistTitle: (newTodolistTitle: string,  todoListID: string) => void
 }
 
 
@@ -39,6 +41,14 @@ const removeTodoListHandler=()=>{
 
 }
 
+const editedTodolistTitle=(newTodolistTitle: string )=>{
+
+ props.editedTodolistTitle(newTodolistTitle, props.id)
+
+
+
+}
+
 
 
 
@@ -46,7 +56,8 @@ const removeTodoListHandler=()=>{
 
             <div>
 
-                <h3>{props.title}
+                <h3>
+                    <EditableSpan title={props.title} editedTitle={editedTodolistTitle}/>
                     <button onClick={removeTodoListHandler}>x</button></h3>
 
                 <AddItemForm addItem={addTask}/>
@@ -75,17 +86,20 @@ const removeTodoListHandler=()=>{
                         return (
                             <li key={t.id} className={t.isDone?s.isDone:""}>
                                 <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler} />
-                                <EditableSpan title={t.title} editedTaskTitle={editedTaskTitle}/>
-                                <button onClick={removeTaskHandler}>x</button>
+                                <EditableSpan title={t.title} editedTitle={editedTaskTitle}/>
+                                {/*<button onClick={removeTaskHandler}>x</button>*/}
+                                <IconButton aria-label="delete" onClick={removeTaskHandler}>
+                                    <DeleteIcon />
+                                </IconButton>
                             </li>
 
                         )
                     })}
                 </ul>
                 <div>
-                    <button onClick={()=>onClickHandler("All")} className={props.currentFilter === "All" ? s.activeFilter: ""}>All</button>
-                    <button onClick={()=>onClickHandler("Active")} className={props.currentFilter === "Active" ? s.activeFilter: ""}>Active</button>
-                    <button onClick={()=>onClickHandler("Completed")} className={props.currentFilter === "Completed" ? s.activeFilter: ""}>Completed</button>
+                    <Button onClick={()=>onClickHandler("All")} variant={props.currentFilter === "All" ? "contained": "outlined"}>All</Button>
+                    <Button onClick={()=>onClickHandler("Active")} variant={props.currentFilter === "Active" ? "contained": "outlined"}>Active</Button>
+                    <Button onClick={()=>onClickHandler("Completed")} variant={props.currentFilter === "Completed" ? "contained": "outlined"}>Completed</Button>
                 </div>
             </div>
     )

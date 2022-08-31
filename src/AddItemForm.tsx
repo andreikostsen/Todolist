@@ -1,5 +1,6 @@
 import s from "./Todolist.module.css";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {Button, TextField} from "@mui/material";
 
 export type PropsType = {
 
@@ -39,8 +40,8 @@ export const AddItemForm = (props:PropsType) => {
     }
 
     return     <div>
-        <input onChange={onChangeHandler} onKeyDown={onKeyDownHandler} value={title}/>
-        <button onClick={addItem}>+</button>
+        <TextField id="filled-basic" label="please enter the title" variant="filled" onChange={onChangeHandler} onKeyDown={onKeyDownHandler} value={title}/>
+        <Button variant="contained" onClick={addItem} style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}>+</Button>
         {error && <div className={s.error}>please enter title</div>}
     </div>
 
