@@ -4,7 +4,8 @@ import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Container, Grid, Paper} from "@mui/material";
+import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
 
 
 export type ObjTaskType = {
@@ -163,7 +164,16 @@ function App() {
     return (
 
         <div className="App">
-
+            <AppBar position="static">
+                <Toolbar variant="dense">
+                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" color="inherit" component="div">
+                        Todolist
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "20px"}}>
 
