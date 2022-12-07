@@ -1,4 +1,10 @@
-import {todolistReducer} from "./todolist-reducer";
+import {
+    AddTodolistAC,
+    ChangeTodolistFilterAC,
+    ChangeTodolistTitleAC,
+    RemoveTodolistAC,
+    todolistReducer
+} from "./todolist-reducer";
 import {TodolistType} from "../App";
 import {v1} from "uuid";
 
@@ -8,8 +14,10 @@ const startState: Array<TodolistType>= [
     {id: v1(), title: "What to 2", filter: "Active"}
 ]
 
-const endState = todolistReducer(startState,
-    {type: "ADD-TODOLIST", title: "What to 3"})
+
+
+
+const endState = todolistReducer(startState, AddTodolistAC("What to 3"))
 
 test("todolist reducer should add todolist", ()=> {
 
@@ -18,8 +26,7 @@ test("todolist reducer should add todolist", ()=> {
 
 })
 
-const endState1 = todolistReducer(startState,
-    {type: "REMOVE-TODOLIST", id: startState[1].id})
+const endState1 = todolistReducer(startState,RemoveTodolistAC(startState[1].id))
 
 test("todolist reducer should remove todolist", ()=>{
 
@@ -28,8 +35,7 @@ test("todolist reducer should remove todolist", ()=>{
 })
 
 
-const endState2 = todolistReducer(startState,
-    {type: "CHANGE-TODOLIST-TITLE", id: startState[0].id, newTitle: "Changed Title" })
+const endState2 = todolistReducer(startState, ChangeTodolistTitleAC(startState[0].id, "Changed Title"))
 
 test("todolist reducer should change todolist title", ()=>{
 
@@ -39,8 +45,7 @@ test("todolist reducer should change todolist title", ()=>{
 })
 
 
-let endState3 = todolistReducer(startState,
-    {type: "CHANGE-TODOLIST-FILTER", id: startState[1].id, newFilterValue: "All"})
+let endState3 = todolistReducer(startState, ChangeTodolistFilterAC(startState[1].id, "All"))
 
 test("todolist reducer should change todolist filter", ()=>{
 
@@ -50,3 +55,5 @@ test("todolist reducer should change todolist filter", ()=>{
 
 
 })
+
+
