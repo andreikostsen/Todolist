@@ -1,7 +1,7 @@
 
 import {ObjTaskType} from "../App";
 import {v1} from "uuid";
-import {AddTaskAC, RemoveTaskAC, TaskReducer} from "./task-reducer";
+import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, TaskReducer} from "./task-reducer";
 
 
 
@@ -41,5 +41,22 @@ test("task reducer should add new task", ()=>{
     expect(endState1[todoListID2].length).toBe(2)
 
 
+
+})
+
+
+let endState2 = TaskReducer(state, ChangeTaskTitleAC(state[todoListID2][0].id, todoListID2, "HTML&CSS&SASS") )
+
+test("task reducer should change task title", ()=>{
+
+    expect(endState2[todoListID2][0].title).toBe("HTML&CSS&SASS")
+
+})
+
+let endState3 = TaskReducer(state, ChangeTaskStatusAC(state[todoListID2][2].id, todoListID2))
+
+test("task reducer should change task title", ()=>{
+
+    expect(endState3[todoListID2][2].isDone).toBe(true)
 
 })

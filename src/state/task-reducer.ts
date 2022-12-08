@@ -6,7 +6,7 @@ import {v1} from "uuid";
 //ChangeTaskTitle
 //ChangeTaskStatus
 
-type ActionsType = AddTaskActionType | RemoveTaskActionType
+type ActionsType = AddTaskActionType | RemoveTaskActionType | ChangeTaskTitleActionType | ChangeTaskStatusActionType
 
 type AddTaskActionType = {
     type: "ADD-TASK",
@@ -19,6 +19,20 @@ type RemoveTaskActionType = {
     type: "REMOVE-TASK",
     taskID: string,
     todolistID: string
+
+}
+
+type ChangeTaskTitleActionType = {
+    type: "CHANGE-TASK-TITLE",
+    taskID: string,
+    todolistID: string,
+    newTitle: string,
+}
+
+type ChangeTaskStatusActionType = {
+    type: "CHANGE-TASK-STATUS",
+    taskID: string,
+    todolistID: string,
 
 }
 
@@ -50,6 +64,30 @@ export const TaskReducer = (state:ObjTaskType, action:ActionsType) => {
             return startState1
 
 
+
+        case "CHANGE-TASK-TITLE":
+
+
+            let initialState1 = {...state}
+
+           initialState1[action.todolistID] =  initialState1[action.todolistID].map(t=>t.id==action.taskID?
+                {id: t.id, isDone: t.isDone, title: action.newTitle }: t)
+
+            return initialState1
+
+
+        case "CHANGE-TASK-STATUS":
+
+            let initialState2 = {...state}
+
+            initialState2[action.todolistID] = initialState2[action.todolistID].map(t=>t.id==action.taskID?
+                {id:t.id, isDone:!t.isDone, title:t.title}:t
+            )
+
+
+            return initialState2
+
+
         default: throw new Error("I don't understand this type")
 
     }
@@ -72,6 +110,23 @@ export const RemoveTaskAC = (taskID: string, todolistID: string):RemoveTaskActio
         type: "REMOVE-TASK",
         taskID,
         todolistID
+    }
+)
+
+export const ChangeTaskTitleAC = (taskID: string, todolistID:string, newTitle:string):ChangeTaskTitleActionType => (
+    {
+        type: "CHANGE-TASK-TITLE",
+        taskID,
+        todolistID,
+        newTitle
+    }
+)
+
+export const ChangeTaskStatusAC = (taskID: string, todolistID: string,):ChangeTaskStatusActionType => (
+    {
+        type: "CHANGE-TASK-STATUS",
+        taskID,
+        todolistID,
     }
 )
 
