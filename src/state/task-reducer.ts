@@ -1,12 +1,14 @@
 import {ObjTaskType} from "../App";
 import {v1} from "uuid";
+import {AddTodolistActionType, RemoveTodolistActionType} from "./todolist-reducer";
 
-//AddTask
-//RemoveTask
-//ChangeTaskTitle
-//ChangeTaskStatus
-
-type ActionsType = AddTaskActionType | RemoveTaskActionType | ChangeTaskTitleActionType | ChangeTaskStatusActionType
+type ActionsType = AddTaskActionType
+    | RemoveTaskActionType
+    | ChangeTaskTitleActionType
+    | ChangeTaskStatusActionType
+    | TasksForNewTodolistActionType
+    | AddTodolistActionType
+    | RemoveTodolistActionType
 
 type AddTaskActionType = {
     type: "ADD-TASK",
@@ -36,10 +38,16 @@ type ChangeTaskStatusActionType = {
 
 }
 
+type TasksForNewTodolistActionType = {
+    type: "TASKS-FOR-NEW-TODOLIST",
+    todolistID: string,
+
+}
 
 
 
-export const TaskReducer = (state:ObjTaskType, action:ActionsType) => {
+
+export const taskReducer = (state:ObjTaskType, action:ActionsType) => {
 
     switch (action.type) {
 
@@ -49,7 +57,7 @@ export const TaskReducer = (state:ObjTaskType, action:ActionsType) => {
 
             let newTask = {id: v1(), isDone: false, title: action.title}
 
-            startState[action.todolistID] = [...state[action.todolistID], newTask]
+            startState[action.todolistID] = [ newTask, ...state[action.todolistID]]
 
             return startState
 
@@ -86,6 +94,23 @@ export const TaskReducer = (state:ObjTaskType, action:ActionsType) => {
 
 
             return initialState2
+
+        case "ADD-TODOLIST":
+
+            let initialState3 = {...state}
+
+            initialState3[action.todolistID]=[]
+
+            return initialState3
+
+
+        case "REMOVE-TODOLIST":
+
+            let initialState4 = {...state}
+
+            delete(initialState4[action.id])
+
+            return initialState4
 
 
         default: throw new Error("I don't understand this type")
@@ -130,3 +155,10 @@ export const ChangeTaskStatusAC = (taskID: string, todolistID: string,):ChangeTa
     }
 )
 
+// export const TasksForNewTodolistAC = (todolistID: string):TasksForNewTodolistActionType => (
+// {
+//     type: "TASKS-FOR-NEW-TODOLIST",
+//     todolistID,
+//
+// }
+// )

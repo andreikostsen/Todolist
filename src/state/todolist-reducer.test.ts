@@ -40,20 +40,34 @@ const endState2 = todolistReducer(startState, ChangeTodolistTitleAC(startState[0
 test("todolist reducer should change todolist title", ()=>{
 
     expect(endState2[0].title).toBe("Changed Title")
+    expect(endState2[1].title).toBe("What to 2")
 
 
 })
 
 
-let endState3 = todolistReducer(startState, ChangeTodolistFilterAC(startState[1].id, "All"))
 
-test("todolist reducer should change todolist filter", ()=>{
+let endState3 = todolistReducer(startState, ChangeTodolistFilterAC(startState[0].id, "Completed"))
 
-    expect(endState3[1].filter).toBe("All")
-    expect(endState3[0].filter).toBe("All")
+test("Change Todolist Filter Type", ()=>{
 
-
+    expect(endState3[0].filter).toBe("Completed")
+    expect(endState3[1].filter).toBe("Active")
+    expect(endState3.length).toBe(2)
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
