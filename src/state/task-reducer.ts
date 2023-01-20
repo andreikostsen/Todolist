@@ -6,7 +6,6 @@ type ActionsType = AddTaskActionType
     | RemoveTaskActionType
     | ChangeTaskTitleActionType
     | ChangeTaskStatusActionType
-    | TasksForNewTodolistActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
 
@@ -37,13 +36,6 @@ type ChangeTaskStatusActionType = {
     todolistID: string,
 
 }
-
-type TasksForNewTodolistActionType = {
-    type: "TASKS-FOR-NEW-TODOLIST",
-    todolistID: string,
-
-}
-
 
 
 
@@ -154,11 +146,3 @@ export const ChangeTaskStatusAC = (taskID: string, todolistID: string,):ChangeTa
         todolistID,
     }
 )
-
-// export const TasksForNewTodolistAC = (todolistID: string):TasksForNewTodolistActionType => (
-// {
-//     type: "TASKS-FOR-NEW-TODOLIST",
-//     todolistID,
-//
-// }
-// )

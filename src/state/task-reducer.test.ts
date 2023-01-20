@@ -7,34 +7,42 @@ import {
     ChangeTaskTitleAC,
     RemoveTaskAC,
     taskReducer,
-    TasksForNewTodolistAC
+
 } from "./task-reducer";
+import {AddTodolistAC} from "./todolist-reducer";
+
+let todoListID1:string;
+let todoListID2:string;
+let state: ObjTaskType;
+
+beforeEach(()=>{
+
+    todoListID1 =  v1()
+    todoListID2 =  v1()
+
+    state = {
+        [todoListID1]: [
+            {id: "1", isDone: true, title: "HTML&CSS"},
+            {id: "2", isDone: true, title: "JS"},
+            {id: "3", isDone: false, title: "React"},
+        ],
+        [todoListID2]: [
+            {id: "1", isDone: true, title: "HTML&CSS"},
+            {id: "2", isDone: true, title: "JS"},
+            {id: "3", isDone: false, title: "React"},
+        ]
+    }
+
+
+})
 
 
 
 
-const todoListID1 = v1();
-const todoListID2 = v1();
 
-const state: ObjTaskType = {
-    [todoListID1]: [
-        {id: "1", isDone: true, title: "HTML&CSS"},
-        {id: "2", isDone: true, title: "JS"},
-        {id: "3", isDone: false, title: "React"},
-    ],
-    [todoListID2]: [
-        {id: "1", isDone: true, title: "HTML&CSS"},
-        {id: "2", isDone: true, title: "JS"},
-        {id: "3", isDone: false, title: "React"},
-    ]
-}
-
-
-
-let endState =taskReducer(state, AddTaskAC("Redux", todoListID1) )
 
 test("correct task should be added to correct array", ()=>{
-
+    let endState =taskReducer(state, AddTaskAC("Redux", todoListID1) )
     expect(endState[todoListID1].length).toBe(4)
     expect(endState[todoListID1][0].title).toBe("Redux")
     expect(endState[todoListID1][0].id).toBeDefined()
@@ -50,10 +58,10 @@ test("correct task should be added to correct array", ()=>{
 })
 
 
-let endState1 =taskReducer(state, RemoveTaskAC(state[todoListID2][0].id, todoListID2) )
+
 
 test("task reducer should delete task", ()=>{
-
+    let endState1 =taskReducer(state, RemoveTaskAC(state[todoListID2][0].id, todoListID2) )
     expect(endState1[todoListID2].length).toBe(2)
     expect(endState1).toEqual(
         {
@@ -75,18 +83,18 @@ test("task reducer should delete task", ()=>{
 })
 
 
-let endState2 = taskReducer(state, ChangeTaskTitleAC(state[todoListID2][0].id, todoListID2, "HTML&CSS&SASS") )
-
 test("task reducer should change task title", ()=>{
+
+    let endState2 = taskReducer(state, ChangeTaskTitleAC(state[todoListID2][0].id, todoListID2, "HTML&CSS&SASS") )
 
     expect(endState2[todoListID2][0].title).toBe("HTML&CSS&SASS")
 
 })
 
-let endState3 = taskReducer(state, ChangeTaskStatusAC(state[todoListID2][2].id, todoListID2))
 
 test("task reducer should change task title", ()=>{
 
+    let endState3 = taskReducer(state, ChangeTaskStatusAC(state[todoListID2][2].id, todoListID2))
     expect(endState3[todoListID2][2].isDone).toBe(true)
 
 })
@@ -106,7 +114,7 @@ test('new array should be added when new todolist is added', () => {
         ]
     }
 
-    const action = TasksForNewTodolistAC('new todolist')
+    const action = AddTodolistAC('new todolist')
 
     const endState = taskReducer(startState, action)
 
