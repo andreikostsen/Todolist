@@ -5,33 +5,46 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
+import {ObjTaskType} from "./AppWithRedux";
+import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC} from "./state/task-reducer";
 
 
 
 type PropsType = {
 
     id: string;
-    tasks: Array<TaskType>;
     title: string;
-    removeTask: (id:string, todoListID: string)=>void;
-    addTask:(title:string, todoListID: string)=>void;
-    tasksFilter:(value:FilterValueType, todoListID: string)=>void;
-    changeTaskStatus: (id:string, checkedStatus: boolean, todoListID: string)=>void;
     currentFilter: FilterValueType;
     removeTodoList: (todoListID: string)=>void;
-    editedTaskTitle: (title:string, todoListID: string, taskID: string) => void
     editedTodolistTitle: (newTodolistTitle: string,  todoListID: string) => void
+
+    //
+    // tasks: Array<TaskType>;
+    // removeTask: (id:string, todoListID: string)=>void;
+    // addTask:(title:string, todoListID: string)=>void;
+    tasksFilter:(value:FilterValueType, todoListID: string)=>void;
+    // changeTaskStatus: (id:string, checkedStatus: boolean, todoListID: string)=>void;
+    // editedTaskTitle: (title:string, todoListID: string, taskID: string) => void
+
 }
 
 
 export const Todolist=(props:PropsType)=> {
+
+    const tasks = useSelector<AppRootStateType, ObjTaskType>(state => state.tasks)
+
+    const dispatch = useDispatch();
 
 const onClickHandler=(value:FilterValueType)=>{
         props.tasksFilter(value, props.id)
 }
 
 const addTask = (title:string) => {
-    props.addTask(title, props.id)
+
+    dispatch(AddTaskAC(title,props.id))
+
 }
 
 
@@ -63,23 +76,20 @@ const editedTodolistTitle=(newTodolistTitle: string )=>{
                 <AddItemForm addItem={addTask}/>
 
                 <ul>
-                    {props.tasks.map(t=>{
+                    {tasks[props.id].map(t=>{
 
                         const removeTaskHandler=()=>{
-                            props.removeTask(t.id, props.id)
+                            dispatch(RemoveTaskAC(t.id, props.id))
                         }
 
                         const changeTaskStatusHandler=(e:ChangeEvent<HTMLInputElement>)=>{
 
-                            props.changeTaskStatus(t.id, e.target.checked, props.id)
-                            console.log(e.target.checked)
-
-
+                            dispatch(ChangeTaskStatusAC(t.id, props.id))
                         }
 
                         const editedTaskTitle = (newTitle:string)=> {
 
-                            props.editedTaskTitle(newTitle, props.id, t.id )
+                           dispatch(ChangeTaskTitleAC(t.id, props.id, newTitle ))
 
                         }
 

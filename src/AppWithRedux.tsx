@@ -46,37 +46,37 @@ const AppWithRedux =()=> {
 
     const dispatch = useDispatch();
 
-    const removeTask = (id: string, todoListID: string) => {
-
-        const action = RemoveTaskAC(id, todoListID)
-        dispatch(action)
-
-    }
-
-
-    const addTask = (title: string, todoListID: string) => {
-
-        const action = AddTaskAC(title, todoListID)
-        dispatch(action)
-
-    }
-
-
-    const changeTaskStatus = (id: string, checkedStatus: boolean, todoListID: string) => {
-
-        const action = ChangeTaskStatusAC(id, todoListID);
-        dispatch(action)
-
-    }
-
-
-    const editedTaskTitle = (newTitle: string, todolistID: string, taskID: string) => {
-
-        const action = ChangeTaskTitleAC(taskID, todolistID, newTitle)
-        dispatch(action)
-
-    }
-
+    // const removeTask = (id: string, todoListID: string) => {
+    //
+    //     const action = RemoveTaskAC(id, todoListID)
+    //     dispatch(action)
+    //
+    // }
+    //
+    //
+    // const addTask = (title: string, todoListID: string) => {
+    //
+    //     const action = AddTaskAC(title, todoListID)
+    //     dispatch(action)
+    //
+    // }
+    //
+    //
+    // const changeTaskStatus = (id: string, checkedStatus: boolean, todoListID: string) => {
+    //
+    //     const action = ChangeTaskStatusAC(id, todoListID);
+    //     dispatch(action)
+    //
+    // }
+    //
+    //
+    // const editedTaskTitle = (newTitle: string, todolistID: string, taskID: string) => {
+    //
+    //     const action = ChangeTaskTitleAC(taskID, todolistID, newTitle)
+    //     dispatch(action)
+    //
+    // }
+    //
     const tasksFilter = (value: FilterValueType, todoListID: string) => {
         const action = ChangeTodolistFilterAC(todoListID, value)
         dispatch(action)
@@ -126,32 +126,34 @@ const AppWithRedux =()=> {
                     {todolists.map(tl => {
 
 
-                            let filteredTasks = tasks[tl.id]
-
-                            if (tl.filter == "Active") {
-                                filteredTasks = tasks[tl.id].filter(t => !t.isDone)
-                                console.log(filteredTasks)
-                            }
-
-                            if (tl.filter == "Completed") {
-                                filteredTasks = tasks[tl.id].filter(t => t.isDone)
-                                console.log(filteredTasks)
-                            }
+                            // let filteredTasks = tasks[tl.id]
+                            //
+                            // if (tl.filter == "Active") {
+                            //     filteredTasks = tasks[tl.id].filter(t => !t.isDone)
+                            //     console.log(filteredTasks)
+                            // }
+                            //
+                            // if (tl.filter == "Completed") {
+                            //     filteredTasks = tasks[tl.id].filter(t => t.isDone)
+                            //     console.log(filteredTasks)
+                            // }
 
                             return <Grid item key={tl.id}>
                                 <Paper style={{padding: "20px"}} elevation={3}>
                                     <Todolist key={tl.id}
                                               id={tl.id}
-                                              tasks={filteredTasks}
                                               title={tl.title}
-                                              removeTask={removeTask}
-                                              addTask={addTask}
-                                              tasksFilter={tasksFilter}
-                                              changeTaskStatus={changeTaskStatus}
                                               currentFilter={tl.filter}
                                               removeTodoList={removeTodoList}
-                                              editedTaskTitle={editedTaskTitle}
                                               editedTodolistTitle={editedTodolistTitle}
+                                              // tasks={filteredTasks}
+                                              // removeTask={removeTask}
+                                              // addTask={addTask}
+                                               tasksFilter={tasksFilter}
+                                              // changeTaskStatus={changeTaskStatus}
+
+                                              // editedTaskTitle={editedTaskTitle}
+
                                     />
                                 </Paper>
                             </Grid>

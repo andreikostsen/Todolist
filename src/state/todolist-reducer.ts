@@ -41,7 +41,7 @@ export const todolistReducer = (state = initialState, action: ActionsType) => {
 
         let newState = [...state]
 
-            newState.push({id: action.todolistID, title: action.title, filter: "Active"})
+            newState.push({id: action.todolistID, title: action.title, filter: "All"})
 
             // return [...state, {id: v1(), title: "What to 3", filter: "Active"}]
 
