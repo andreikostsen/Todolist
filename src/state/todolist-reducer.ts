@@ -30,10 +30,10 @@ export type ChangeTodolistFilterActionType = {
     newFilterValue: FilterValueType
 }
 
+const initialState:Array<TodolistType>  = []
 
 
-
-export const todolistReducer = (state: Array<TodolistType>, action: ActionsType) => {
+export const todolistReducer = (state = initialState, action: ActionsType) => {
 
     switch (action.type) {
 
@@ -75,11 +75,10 @@ export const todolistReducer = (state: Array<TodolistType>, action: ActionsType)
 
             return newState3
 
-        default: throw new Error("I don't understand this type")
+        default: return state
 
 
     }
-
 
 
 

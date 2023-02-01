@@ -37,9 +37,9 @@ type ChangeTaskStatusActionType = {
 
 }
 
+const initialState: ObjTaskType = {}
 
-
-export const taskReducer = (state:ObjTaskType, action:ActionsType) => {
+export const taskReducer = (state = initialState, action:ActionsType) => {
 
     switch (action.type) {
 
@@ -105,7 +105,7 @@ export const taskReducer = (state:ObjTaskType, action:ActionsType) => {
             return initialState4
 
 
-        default: throw new Error("I don't understand this type")
+        default: return state
 
     }
 
