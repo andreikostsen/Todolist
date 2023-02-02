@@ -1,5 +1,5 @@
-import React, {ChangeEvent,KeyboardEvent , useState} from "react";
-import {FilterValueType, TaskType} from "./App";
+import React, {ChangeEvent} from "react";
+import {FilterValueType} from "./AppWithRedux";
 import s from "./Todolist.module.css"
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -19,14 +19,7 @@ type PropsType = {
     currentFilter: FilterValueType;
     removeTodoList: (todoListID: string)=>void;
     editedTodolistTitle: (newTodolistTitle: string,  todoListID: string) => void
-
-    //
-    // tasks: Array<TaskType>;
-    // removeTask: (id:string, todoListID: string)=>void;
-    // addTask:(title:string, todoListID: string)=>void;
     tasksFilter:(value:FilterValueType, todoListID: string)=>void;
-    // changeTaskStatus: (id:string, checkedStatus: boolean, todoListID: string)=>void;
-    // editedTaskTitle: (title:string, todoListID: string, taskID: string) => void
 
 }
 
@@ -63,6 +56,18 @@ const editedTodolistTitle=(newTodolistTitle: string )=>{
 }
 
 
+    let filteredTasks = tasks[props.id]
+
+    if (props.currentFilter == "Active") {
+        filteredTasks = tasks[props.id].filter(t => !t.isDone)
+
+    }
+
+    if (props.currentFilter == "Completed") {
+        filteredTasks = tasks[props.id].filter(t => t.isDone)
+
+    }
+
 
 
     return (
@@ -76,7 +81,7 @@ const editedTodolistTitle=(newTodolistTitle: string )=>{
                 <AddItemForm addItem={addTask}/>
 
                 <ul>
-                    {tasks[props.id].map(t=>{
+                    {filteredTasks.map(t=>{
 
                         const removeTaskHandler=()=>{
                             dispatch(RemoveTaskAC(t.id, props.id))
@@ -97,7 +102,7 @@ const editedTodolistTitle=(newTodolistTitle: string )=>{
                             <li key={t.id} className={t.isDone?s.isDone:""}>
                                 <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler} />
                                 <EditableSpan title={t.title} editedTitle={editedTaskTitle}/>
-                                {/*<button onClick={removeTaskHandler}>x</button>*/}
+
                                 <IconButton aria-label="delete" onClick={removeTaskHandler}>
                                     <DeleteIcon />
                                 </IconButton>
